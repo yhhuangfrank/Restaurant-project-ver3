@@ -1,0 +1,245 @@
+{{! edit page }}
+<h1 class="mb-1 restaurant-show-title">Edit information</h1>
+<div class="row">
+  <div class="col col-sm-6 mx-auto">
+    <form
+      action="/restaurants/{{_id}}/edit"
+      id="new-form"
+      class="needs-validation fw-bolder"
+      method="POST"
+      novalidate
+    >
+      <div class="mb-3">
+        <i class="fa-solid fa-shop me-2"></i>
+        <label for="name" class="form-label">Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          value="{{restaurant.name}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-shop me-2"></i>
+        <label for="name_en" class="form-label">English Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name_en"
+          name="name_en"
+          value="{{restaurant.name_en}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-tag me-2"></i>
+        <label for="category" class="form-label">Category</label>
+        <input
+          list="category-list"
+          class="form-control"
+          id="category"
+          name="category"
+          placeholder="Select or add a new category!"
+          value="{{restaurant.category}}"
+          required
+        />
+        <datalist id="category-list">
+          <option value="美式"></option>
+          <option value="中東料理"></option>
+          <option value="日本料理"></option>
+          <option value="義式餐廳"></option>
+          <option value="酒吧"></option>
+          <option value="咖啡"></option>
+        </datalist>
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-image me-2"></i>
+        <label for="image" class="form-label">Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          name="image"
+          placeholder="http://..."
+          value="{{restaurant.image}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-location-dot me-2"></i>
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          class="form-control"
+          id="location"
+          name="location"
+          placeholder="Address of restaurant"
+          value="{{restaurant.location}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-phone me-2"></i>
+        <label for="phone" class="form-label">Tel:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="phone"
+          name="phone"
+          placeholder="XX XXXX XXXX"
+          value="{{restaurant.phone}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-brands fa-google me-2"></i>
+        <label for="google_map" class="form-label">Google Maps Link</label>
+        <input
+          type="text"
+          class="form-control"
+          id="google_map"
+          name="google_map"
+          placeholder="http://..."
+          value="{{restaurant.google_map}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-star me-2"></i>
+        <label for="rating" class="form-label">Rating</label>
+        <input
+          type="number"
+          class="form-control"
+          id="rating"
+          name="rating"
+          placeholder=" Rating is between 0 ~ 5.0"
+          max="5.0"
+          min="0"
+          step="0.1"
+          value="{{restaurant.rating}}"
+          required
+        />
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This rating is invalid !
+        </div>
+      </div>
+      <div class="mb-3">
+        <i class="fa-solid fa-circle-exclamation me-2"></i>
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="description"
+          class="form-control"
+          id="description"
+          cols="30"
+          rows="10"
+          placeholder="About this restaurant..."
+          required
+        >{{restaurant.description}}</textarea>
+        <div class="valid-feedback">
+        </div>
+        <div class="invalid-feedback">
+          This field is required !
+        </div>
+      </div>
+      {{! error message alert -start }}
+      {{#if errMessage}}
+        <div class="alert alert-success" role="alert">
+          {{{errMessage}}}
+        </div>
+      {{/if}}
+      {{! error message alert -end }}
+      <button
+        type="submit"
+        class="btn btn-primary"
+        id="submitButton"
+      >Save</button>
+      <button
+        type="button"
+        class="ms-2 btn btn-danger"
+        data-bs-toggle="modal"
+        data-bs-target="#deleteModal"
+      >Delete</button>
+      <a href="/" class="btn btn-success ms-2"><i class="fa-solid fa-reply"></i>
+        Home</a>
+    </form>
+  </div>
+</div>
+
+{{! Modal }}
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete confirmation</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete this restaurant ?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >Close</button>
+        <form
+          action="/restaurants/{{_id}}/delete"
+          method="POST"
+          class="my-0 d-flex align-items-center"
+        >
+          <button type="submit" class="ms-2 btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
