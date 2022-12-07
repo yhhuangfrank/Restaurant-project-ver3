@@ -109,11 +109,11 @@ app.get("/search", (req, res) => {
   if (!isNaN(Number(keyword))) {
     return Restaurant.find({ rating: { $gte: Number(keyword) } })
       .lean()
-      .then((restaurant) => {
-        if (!restaurant.length) {
+      .then((restaurants) => {
+        if (!restaurants.length) {
           return res.render("error", { keyword });
         }
-        return res.render("index", { restaurant, keyword });
+        return res.render("index", { restaurants, keyword });
       })
       .catch((err) => console.log(err));
   }
@@ -127,11 +127,11 @@ app.get("/search", (req, res) => {
     ],
   })
     .lean()
-    .then((restaurant) => {
-      if (!restaurant.length) {
+    .then((restaurants) => {
+      if (!restaurants.length) {
         return res.render("error", { keyword });
       }
-      return res.render("index", { restaurant, keyword });
+      return res.render("index", { restaurants, keyword });
     })
     .catch((err) => console.log(err));
 });

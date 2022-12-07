@@ -62,22 +62,18 @@
               >
                 <a
                   href="/restaurants/{{this._id}}/edit"
-                  class="btn btn-secondary btn-sm"
+                  class="btn btn-secondary p-1"
                 >Edit</a>
                 <a
                   href="/restaurants/{{this._id}}"
-                  class="btn btn-primary btn-sm ms-2"
+                  class="btn btn-primary p-1 ms-2"
                 >Detail</a>
-                <form
-                  action="/restaurants/{{this._id}}/delete"
-                  method="POST"
-                  class="ms-2 my-0 d-flex align-items-center"
-                >
-                  <button
-                    type="submit"
-                    class="btn btn-danger btn-sm"
-                  >Delete</button>
-                </form>
+                <button
+                  type="button"
+                  class="btn btn-danger p-1 ms-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modal-{{this._id}}"
+                >Delete</button>
               </div>
             </a>
           </div>
@@ -87,3 +83,48 @@
     </div>
   </div>
 </div>
+
+{{! Modal }}
+{{#each restaurants}}
+
+  <div
+    class="modal fade"
+    id="modal-{{this._id}}"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+            confirmation</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          Are you sure to delete this restaurant ?
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >Close</button>
+          <form
+            action="/restaurants/{{_id}}/delete"
+            method="POST"
+            class="my-0 d-flex align-items-center"
+          >
+            <button type="submit" class="ms-2 btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{/each}}
