@@ -10,7 +10,7 @@ function checkFormInput(data) {
     `;
   }
   //- 判斷電話格式
-  if (!data.phone.includes(" ")) {
+  if (!data.phone.includes(" ") || data.phone.length < 9) {
     errMessage += `
       <code>Format of Tel is wrong!</code>
     `;
