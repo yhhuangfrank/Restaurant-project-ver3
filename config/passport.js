@@ -28,18 +28,22 @@ passport.deserializeUser((_id, done) => {
 //! local strategy setting
 passport.use(
   new LocalStrategy((username, password, done) => {
-    User.findOne({ email: username }).then((user) => {
-      //- if found user
-      if (user) {
-        bcrypt.compare(password, user.password, (err, isMatched) => {
-          if (isMatched) {
-            console.log("本地會員資料比對成功");
-            return done(null, user);
-          }
-          return done(null, false, { message: "Incorrect email or password" });
-        });
-      }
-      return done(null, false, { message: "Incorrect email or password" });
-    });
+    User.findOne({ email: username })
+      .then((user) => {
+        //- if found user
+        if (user) {
+          bcrypt.compare(password, user.password, (err, isMatched) => {
+            if (isMatched) {
+              console.log("本地會員資料比對成功");
+              return done(null, user);
+            }
+            return done(null, false, {
+              message: "Incorrect email or password",
+            });
+          });
+        }
+        return done(null, false, { message: "Incorrect email or password" });
+      })
+      .catch((err) => console.log(err));
   })
 );
