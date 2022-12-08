@@ -8,15 +8,26 @@ const exphbs = require("express-handlebars");
 const Restaurant = require("./models/restaurant");
 //! require mongoose
 const mongoose = require("mongoose");
+//- routers
+const authRoutes = require("./routes/auth");
+
 //- require bodyparser
 const bodyParser = require("body-parser");
 //- require checkFormInput
 const checkFormInput = require("./models/checkFormInput");
+//- require session for flash and passport
+const session = require("express-session");
+//- require flash for short message
+const flash = require("connect-flash");
+const passport = require("passport");
 
 //! connect to db
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config(); //- 僅在非正式環境時使用dotenv
 }
+
+//- run passport
+require("./config/passport");
 
 mongoose.connect(process.env.MONGOOSE_URI, {
   useNewUrlParser: true,
@@ -40,7 +51,32 @@ app.use(express.static("public"));
 //! body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//! set server route
+//! session setting
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
+
+//! passport initialize and passport session middlware
+app.use(passport.initialize());
+app.use(passport.session());
+
+//! flash middlware
+app.use(flash());
+//* customize middleware to store flash message
+app.use((req, res, next) => {
+  res.locals.successLogin_msg = req.flash("successLogin_msg");
+  res.locals.failLogin_msg = req.flash("failLogin_msg");
+  res.locals.error = req.flash("error");
+  next();
+});
+
+//! set server routes
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
   return res.render("home");
