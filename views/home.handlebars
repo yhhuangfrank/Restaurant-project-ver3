@@ -1,0 +1,65 @@
+<div class="row mt-2">
+  <div class="col col-8 mx-auto">
+    <div class="row justify-content-center">
+      <div class="col col-7">
+        <section class="left-section">
+          <h1 class="mb-3">會員登入</h1>
+          <form
+            action="/auth/login"
+            method="POST"
+            id="login-form"
+            class="needs-validation fw-bolder"
+            novalidate
+          >
+            <div class="mb-3">
+              <label for="username" class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="username"
+                placeholder="name@example.com"
+                name="username"
+                required
+              />
+              <div class="valid-feedback">
+              </div>
+              <div class="invalid-feedback">
+                This field is invalid !
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                aria-describedby="passwordHelpBlock"
+                name="password"
+                minlength="8"
+                maxlength="20"
+                required
+              />
+              <div class="valid-feedback">
+              </div>
+              <div class="invalid-feedback">
+                This field is invalid !
+              </div>
+              <small id="passwordHelpBlock" class="form-text">
+                Your password must be 8-20 characters long
+              </small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </section>
+      </div>
+      <div class="col col-3">
+        <section class="right-section">
+          <h1>還不是會員?</h1>
+          <a href="/register" class="btn btn-primary">點我註冊</a>
+        </section>
+      </div>
+    </div>
+
+  </div>
+</div>

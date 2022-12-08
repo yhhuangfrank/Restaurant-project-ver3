@@ -41,13 +41,18 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //! set server route
+
 app.get("/", (req, res) => {
-  //- 取出所有餐廳資料
-  return Restaurant.find()
-    .lean()
-    .then((restaurants) => res.render("index", { restaurants }))
-    .catch((err) => console.log(err));
+  return res.render("home");
 });
+
+// app.get("/", (req, res) => {
+//   //- 取出所有餐廳資料
+//   return Restaurant.find()
+//     .lean()
+//     .then((restaurants) => res.render("index", { restaurants }))
+//     .catch((err) => console.log(err));
+// });
 
 //- 導向新增餐廳頁面
 app.get("/restaurants/new", (req, res) => {
