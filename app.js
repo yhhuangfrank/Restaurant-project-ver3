@@ -69,8 +69,8 @@ app.use(passport.session());
 app.use(flash());
 //* customize middleware to store flash message
 app.use((req, res, next) => {
-  res.locals.successLogin_msg = req.flash("successLogin_msg");
-  res.locals.failLogin_msg = req.flash("failLogin_msg");
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.fail_msg = req.flash("fail_msg");
   res.locals.error = req.flash("error");
   next();
 });

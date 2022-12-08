@@ -42,6 +42,12 @@ const RestaurantSchema = new Schema({
     type: String,
     required: true,
   },
+  //- 每筆餐廳資料都有一位user
+  userID: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 //- 匯出Restaurant model

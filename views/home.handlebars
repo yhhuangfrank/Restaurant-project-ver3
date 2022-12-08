@@ -11,6 +11,11 @@
             class="needs-validation fw-bolder"
             novalidate
           >
+            {{#if success_msg}}
+              <div class="alert alert-success" role="alert">
+                <strong>{{success_msg}}</strong>
+              </div>
+            {{/if}}
             <div class="mb-3">
               <label for="username" class="form-label">Email address</label>
               <input
