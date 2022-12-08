@@ -17,12 +17,11 @@ passport.serializeUser((user, done) => {
 });
 
 //! deserialize user
-passport.deserializeUser((_id, done) => {
+passport.deserializeUser(async (_id, done) => {
   console.log("Desrialization 開始。。。");
   console.log("使用_id在資料庫找尋資料");
-  User.findById({ _id })
-    .then((user) => done(null, user))
-    .catch((err) => console.log(err));
+  const foundUser = await User.findById({ _id });
+  done(null, foundUser);
 });
 
 //! local strategy setting
@@ -33,16 +32,14 @@ passport.use(
         //- if found user
         if (user) {
           bcrypt.compare(password, user.password, (err, isMatched) => {
-            if (isMatched) {
-              console.log("本地會員資料比對成功");
-              return done(null, user);
-            }
-            return done(null, false, {
-              message: "Incorrect email or password",
-            });
+            if (err) throw err;
+            return isMatched
+              ? done(null, user)
+              : done(null, false, { message: "Incorrect email or password" });
           });
+        } else {
+          return done(null, false, { message: "Incorrect email or password" });
         }
-        return done(null, false, { message: "Incorrect email or password" });
       })
       .catch((err) => console.log(err));
   })

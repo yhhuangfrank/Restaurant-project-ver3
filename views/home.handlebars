@@ -16,6 +16,11 @@
                 <strong>{{success_msg}}</strong>
               </div>
             {{/if}}
+            {{#if error}}
+              <div class="alert alert-warning" role="alert">
+                <strong>{{error}}</strong>
+              </div>
+            {{/if}}
             <div class="mb-3">
               <label for="username" class="form-label">Email address</label>
               <input

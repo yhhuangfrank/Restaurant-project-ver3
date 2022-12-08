@@ -29,13 +29,30 @@ router.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 12);
   const newUser = new User({
     name,
-    email: username, 
+    email: username,
     password: hashedPassword,
-  })
-  await newUser.save();
-  req.flash(req.flash("success_msg", "恭喜註冊成功，現在可以登入系統了!"))
-  return res.redirect("/")
+  });
+  try {
+    await newUser.save();
+    req.flash(req.flash("success_msg", "恭喜註冊成功，現在可以登入系統了!"));
+    return res.redirect("/");
+  } catch (err) {
+    console.log(err);
+  }
 });
+
+//- 驗證本地會員登入(使用passport提供middleware)
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/",
+    failureFlash: "登入失敗! 帳號或密碼不正確!",
+  }),
+  (req, res) => {
+    console.log("本地會員登入成功!");
+    res.redirect("/restaurants");
+  }
+);
 
 //- exports router
 module.exports = router;
