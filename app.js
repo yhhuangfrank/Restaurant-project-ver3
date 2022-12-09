@@ -19,7 +19,6 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 
-
 //! connect to db
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config(); //- 僅在非正式環境時使用dotenv
@@ -79,6 +78,9 @@ app.use("/auth", authRoutes);
 app.use("/restaurants", restaurantRoutes);
 
 app.get("/", (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.redirect("/restaurants");
+  }
   return res.render("home");
 });
 
