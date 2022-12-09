@@ -17,7 +17,6 @@
           class="form-control"
           id="name"
           name="name"
-          value="{{restaurant.name}}"
           required
         />
         <div class="valid-feedback">
@@ -34,7 +33,6 @@
           class="form-control"
           id="name_en"
           name="name_en"
-          value="{{restaurant.name_en}}"
           required
         />
         <div class="valid-feedback">
@@ -52,7 +50,6 @@
           id="category"
           name="category"
           placeholder="Select or add a new category!"
-          value="{{restaurant.category}}"
           required
         />
         <datalist id="category-list">
@@ -79,12 +76,11 @@
           name="image"
           placeholder="http://..."
           value="{{restaurant.image}}"
-          required
         />
         <div class="valid-feedback">
         </div>
         <div class="invalid-feedback">
-          This field is required !
+          This field is invalid !
         </div>
       </div>
       <div class="mb-3">
@@ -96,7 +92,6 @@
           id="location"
           name="location"
           placeholder="Address of restaurant"
-          value="{{restaurant.location}}"
           required
         />
         <div class="valid-feedback">
@@ -114,7 +109,6 @@
           id="phone"
           name="phone"
           placeholder="XX XXXX XXXX"
-          value="{{restaurant.phone}}"
           required
         />
         <div class="valid-feedback">
@@ -132,7 +126,6 @@
           id="google_map"
           name="google_map"
           placeholder="http://..."
-          value="{{restaurant.google_map}}"
           required
         />
         <div class="valid-feedback">
@@ -153,7 +146,6 @@
           max="5.0"
           min="0"
           step="0.1"
-          value="{{restaurant.rating}}"
           required
         />
         <div class="valid-feedback">
@@ -173,7 +165,7 @@
           rows="10"
           placeholder="About this restaurant..."
           required
-        >{{restaurant.description}}</textarea>
+        ></textarea>
         <div class="valid-feedback">
         </div>
         <div class="invalid-feedback">

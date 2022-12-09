@@ -39,7 +39,7 @@
               <div class="card">
                 <img
                   class="card-img-top"
-                  src="{{this.image}}"
+                  src="{{#if this.image}}{{this.image}}{{else}}/image/no-image-icon.png{{/if}}"
                   alt="{{this.name}}"
                 />
                 <div class="card-body p-3">

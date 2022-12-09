@@ -42,7 +42,7 @@
 
       <img
         class="rounded mx-auto d-block mb-4 w-100"
-        src="{{restaurant.image}}"
+        src="{{#if restaurant.image}}{{restaurant.image}}{{else}}/image/no-image-icon.png{{/if}}"
         alt="{{restaurant.name}}"
         style="max-width: 600px;"
       />

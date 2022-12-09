@@ -65,17 +65,18 @@ router.post("/", (req, res) => {
     description,
     userID,
   })
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect("/restaurants"))
     .catch((err) => console.log(err));
 });
 
 //- 顯示詳細資訊
-router.get("/:_id", (req, res) => {
+router.get("/:_id", authCheck, (req, res) => {
+  const user = req.user;
   const { _id } = req.params;
   //- 透過id查詢導向對應餐廳資料，將查詢結果傳回給show頁面
   return Restaurant.findById(_id)
     .lean()
-    .then((restaurant) => res.render("show", { restaurant }))
+    .then((restaurant) => res.render("show", { restaurant, user }))
     .catch((err) => console.log(err));
 });
 
