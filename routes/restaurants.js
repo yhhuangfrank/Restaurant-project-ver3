@@ -10,7 +10,7 @@ const authCheck = (req, res, next) => {
     console.log("authChecking");
     return next();
   } else {
-    return res.redirect("/restaurants");
+    return res.redirect("/");
   }
 };
 
@@ -27,7 +27,8 @@ router.get("/", authCheck, (req, res) => {
 
 //- 導向新增餐廳頁面
 router.get("/new", authCheck, (req, res) => {
-  return res.render("new");
+  const user = req.user;
+  return res.render("new", { user });
 });
 //- 接收新增餐廳請求
 router.post("/", (req, res) => {
@@ -80,54 +81,22 @@ router.get("/:_id", authCheck, (req, res) => {
     .catch((err) => console.log(err));
 });
 
-//! search for certain restaurants
-router.get("/search", (req, res) => {
-  const keyword = req.query.keyword.toLowerCase().trim();
-  //- 尋找包含keyword的餐廳
 
-  //- search by rating (若輸入數字)
-  if (!isNaN(Number(keyword))) {
-    return Restaurant.find({ rating: { $gte: Number(keyword) } })
-      .lean()
-      .then((restaurants) => {
-        if (!restaurants.length) {
-          return res.render("error", { keyword });
-        }
-        return res.render("index", { restaurants, keyword });
-      })
-      .catch((err) => console.log(err));
-  }
-
-  //- 如果輸入文字
-  return Restaurant.find({
-    $or: [
-      { name: { $regex: keyword, $options: "i" } },
-      { name_en: { $regex: keyword, $options: "i" } },
-      { category: { $regex: keyword, $options: "i" } },
-    ],
-  })
-    .lean()
-    .then((restaurants) => {
-      if (!restaurants.length) {
-        return res.render("error", { keyword });
-      }
-      return res.render("index", { restaurants, keyword });
-    })
-    .catch((err) => console.log(err));
-});
 
 //- 導向修改頁面
 router.get("/:_id/edit", (req, res) => {
+  const user = req.user;
   const { _id } = req.params;
   return Restaurant.findById(_id)
     .lean()
     .then((restaurant) => {
-      return res.render("edit", { restaurant, _id });
+      return res.render("edit", { restaurant, _id, user });
     })
     .catch((err) => console.log(err));
 });
 //- 接收修改請求
 router.post("/:_id/edit", (req, res) => {
+  const user = req.user;
   const { _id } = req.params;
   const restaurant = req.body;
   //- check form input
@@ -137,6 +106,7 @@ router.post("/:_id/edit", (req, res) => {
       errMessage,
       restaurant,
       _id,
+      user,
     });
   }
   return Restaurant.findById(_id)

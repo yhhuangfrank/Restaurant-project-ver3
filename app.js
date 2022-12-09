@@ -4,12 +4,12 @@ const app = express();
 const port = 3000;
 // - require express-handlebars
 const exphbs = require("express-handlebars");
-
 //! require mongoose
 const mongoose = require("mongoose");
 //- routers
 const authRoutes = require("./routes/auth");
 const restaurantRoutes = require("./routes/restaurants");
+const searchRoutes = require("./routes/search");
 //- require bodyparser
 const bodyParser = require("body-parser");
 
@@ -76,6 +76,7 @@ app.use((req, res, next) => {
 //! set server routes
 app.use("/auth", authRoutes);
 app.use("/restaurants", restaurantRoutes);
+app.use("/search", searchRoutes);
 
 app.get("/", (req, res) => {
   if (req.isAuthenticated()) {
