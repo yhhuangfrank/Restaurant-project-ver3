@@ -15,9 +15,10 @@ const authCheck = (req, res, next) => {
 };
 
 router.get("/", authCheck, (req, res) => {
-  console.log("get Restaurants ....");
-  //- 取出所有餐廳資料
-  return Restaurant.find()
+  console.log("get user's restaurants ....");
+  //- 取出對應user的餐廳資料
+  const userID = req.user._id;
+  return Restaurant.find({ userID })
     .lean()
     .then((restaurants) => res.render("index", { restaurants }))
     .catch((err) => console.log(err));
