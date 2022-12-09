@@ -1,0 +1,14 @@
+{
+  "userList": [
+    {
+      "name": "user1",
+      "username": "user1@mail.com",
+      "password": "123456789"
+    },
+    {
+      "name": "user2",
+      "username": "user2@mail.com",
+      "password": "123456789"
+    }
+  ]
+}

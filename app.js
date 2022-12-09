@@ -13,8 +13,7 @@ const authRoutes = require("./routes/auth");
 const restaurantRoutes = require("./routes/restaurants");
 //- require bodyparser
 const bodyParser = require("body-parser");
-//- require checkFormInput
-const checkFormInput = require("./models/checkFormInput");
+
 //- require session for flash and passport
 const session = require("express-session");
 //- require flash for short message

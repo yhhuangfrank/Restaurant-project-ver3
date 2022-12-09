@@ -50,7 +50,7 @@ router.post(
   }),
   (req, res) => {
     console.log("本地會員登入成功!");
-    res.redirect("/restaurants");
+    return res.redirect("/restaurants");
   }
 );
 
