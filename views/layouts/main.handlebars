@@ -34,8 +34,19 @@
             我的餐廳清單
           </a>
           {{#if user}}
-            <a href="/restaurants/new" class="btn btn-primary">新增餐廳</a>
+            <div class="d-flex align-items-center">
+              <a href="/restaurants/new" class="btn btn-primary">新增餐廳</a>
+              <form
+                action="/auth/logout"
+                method="POST"
+                style="display: inline-block"
+                class="ms-2 my-0"
+              >
+                <button type="submit" class="btn btn-dark">登出</button>
+              </form>
+            </div>
           {{/if}}
+
         </div>
       </nav>
       <div class="banner"></div>

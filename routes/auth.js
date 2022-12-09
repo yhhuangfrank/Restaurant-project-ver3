@@ -54,5 +54,13 @@ router.post(
   }
 );
 
+//- 會員登出
+router.post("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) throw err
+    res.redirect("/")
+  })
+})
+
 //- exports router
 module.exports = router;
