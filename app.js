@@ -4,8 +4,7 @@ const app = express();
 const port = 3000;
 // - require express-handlebars
 const exphbs = require("express-handlebars");
-//- require Restaurant model
-const Restaurant = require("./models/restaurant");
+
 //! require mongoose
 const mongoose = require("mongoose");
 //- routers

@@ -2,7 +2,7 @@
 const router = require("express").Router();
 const Restaurant = require("../models/restaurant");
 //- require checkFormInput
-const checkFormInput = require("../models/checkFormInput");
+const { checkFormInput } = require("../models/checkFormInput");
 
 //- 驗證登入middleware
 const authCheck = (req, res, next) => {
@@ -10,22 +10,23 @@ const authCheck = (req, res, next) => {
     console.log("authChecking");
     return next();
   } else {
-    return res.redirect("/");
+    return res.redirect("/restaurants");
   }
 };
 
 router.get("/", authCheck, (req, res) => {
   console.log("get user's restaurants ....");
   //- 取出對應user的餐廳資料
+  const user = req.user;
   const userID = req.user._id;
   return Restaurant.find({ userID })
     .lean()
-    .then((restaurants) => res.render("index", { restaurants }))
+    .then((restaurants) => res.render("index", { restaurants, user }))
     .catch((err) => console.log(err));
 });
 
 //- 導向新增餐廳頁面
-router.get("/new", (req, res) => {
+router.get("/new", authCheck, (req, res) => {
   return res.render("new");
 });
 //- 接收新增餐廳請求
@@ -51,6 +52,7 @@ router.post("/", (req, res) => {
     });
   }
   //- create new restaurant in db and redirect to index page
+  const userID = req.user._id;
   return Restaurant.create({
     name,
     name_en,
@@ -61,6 +63,7 @@ router.post("/", (req, res) => {
     google_map,
     rating,
     description,
+    userID,
   })
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));

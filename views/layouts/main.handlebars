@@ -33,7 +33,9 @@
             />
             我的餐廳清單
           </a>
-          <a href="/restaurants/new" class="btn btn-primary">新增餐廳</a>
+          {{#if user}}
+            <a href="/restaurants/new" class="btn btn-primary">新增餐廳</a>
+          {{/if}}
         </div>
       </nav>
       <div class="banner"></div>
