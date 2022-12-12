@@ -17,6 +17,7 @@
           class="form-control"
           id="name"
           name="name"
+          value="{{restaurant.name}}"
           required
         />
         <div class="valid-feedback">
@@ -33,6 +34,7 @@
           class="form-control"
           id="name_en"
           name="name_en"
+          value="{{restaurant.name_en}}"
           required
         />
         <div class="valid-feedback">
@@ -50,15 +52,13 @@
           id="category"
           name="category"
           placeholder="Select or add a new category!"
+          value="{{restaurant.category}}"
           required
         />
         <datalist id="category-list">
-          <option value="美式"></option>
-          <option value="中東料理"></option>
-          <option value="日本料理"></option>
-          <option value="義式餐廳"></option>
-          <option value="酒吧"></option>
-          <option value="咖啡"></option>
+          {{#each categories}}
+            <option value="{{this}}"></option>
+          {{/each}}
         </datalist>
         <div class="valid-feedback">
         </div>
@@ -92,6 +92,7 @@
           id="location"
           name="location"
           placeholder="Address of restaurant"
+          value="{{restaurant.location}}"
           required
         />
         <div class="valid-feedback">
@@ -109,6 +110,7 @@
           id="phone"
           name="phone"
           placeholder="XX XXXX XXXX"
+          value="{{restaurant.phone}}"
           required
         />
         <div class="valid-feedback">
@@ -126,6 +128,7 @@
           id="google_map"
           name="google_map"
           placeholder="http://..."
+          value="{{restaurant.google_map}}"
           required
         />
         <div class="valid-feedback">
@@ -146,6 +149,7 @@
           max="5.0"
           min="0"
           step="0.1"
+          value="{{restaurant.rating}}"
           required
         />
         <div class="valid-feedback">
@@ -165,7 +169,7 @@
           rows="10"
           placeholder="About this restaurant..."
           required
-        ></textarea>
+        >{{restaurant.description}}</textarea>
         <div class="valid-feedback">
         </div>
         <div class="invalid-feedback">
@@ -184,7 +188,9 @@
         class="btn btn-primary"
         id="submitButton"
       >Add</button>
-      <a href="/restaurants" class="ms-3 btn btn-success"><i class="fa-solid fa-reply"></i>
+      <a href="/restaurants" class="ms-3 btn btn-success"><i
+          class="fa-solid fa-reply"
+        ></i>
         Home</a>
     </form>
 

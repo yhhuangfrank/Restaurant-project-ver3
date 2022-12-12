@@ -26,9 +26,20 @@ router.get("/", authCheck, (req, res) => {
 });
 
 //- 導向新增餐廳頁面
-router.get("/new", authCheck, (req, res) => {
+router.get("/new", authCheck, async (req, res) => {
   const user = req.user;
-  return res.render("new", { user });
+  const userID = user._id;
+  //- 取得目前收藏餐廳所有類別
+  return Restaurant.find({ userID }, { category: 1, _id: 0 })
+    .lean()
+    .then((userCategories) => {
+      const categoriesArr = userCategories.map((category) => category.category);
+      const categories = categoriesArr.filter(
+        (category, index) => categoriesArr.indexOf(category) === index
+      );
+      return res.render("new", { user, categories });
+    })
+    .catch((err) => console.log(err));
 });
 //- 接收新增餐廳請求
 router.post("/", (req, res) => {
@@ -81,16 +92,25 @@ router.get("/:_id", authCheck, (req, res) => {
     .catch((err) => console.log(err));
 });
 
-
-
 //- 導向修改頁面
 router.get("/:_id/edit", (req, res) => {
   const user = req.user;
+  const userID = user._id
   const { _id } = req.params;
   return Restaurant.findById(_id)
     .lean()
     .then((restaurant) => {
-      return res.render("edit", { restaurant, _id, user });
+      return Restaurant.find({ userID }, { category: 1, _id: 0 })
+        .lean()
+        .then((userCategories) => {
+          const categoriesArr = userCategories.map(
+            (category) => category.category
+          );
+          const categories = categoriesArr.filter(
+            (category, index) => categoriesArr.indexOf(category) === index
+          );
+          return res.render("edit", { user, restaurant, _id, categories });
+        });
     })
     .catch((err) => console.log(err));
 });

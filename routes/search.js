@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Restaurant = require("../models/restaurant");
-const User = require("../models/user");
+
 
 const authCheck = (req, res, next) => {
   if (req.isAuthenticated()) {
