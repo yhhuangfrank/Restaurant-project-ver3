@@ -95,7 +95,7 @@ router.get("/:_id", authCheck, (req, res) => {
 //- 導向修改頁面
 router.get("/:_id/edit", (req, res) => {
   const user = req.user;
-  const userID = user._id
+  const userID = user._id;
   const { _id } = req.params;
   return Restaurant.findById(_id)
     .lean()
@@ -103,12 +103,10 @@ router.get("/:_id/edit", (req, res) => {
       return Restaurant.find({ userID }, { category: 1, _id: 0 })
         .lean()
         .then((userCategories) => {
-          const categoriesArr = userCategories.map(
-            (category) => category.category
-          );
-          const categories = categoriesArr.filter(
-            (category, index) => categoriesArr.indexOf(category) === index
-          );
+          const categories = userCategories
+            .map((category) => category.category)
+            .filter((category, index, arr) => arr.indexOf(category) === index);
+            //- 使用filter第三個參數調取呼叫filter前(經過map之後)的array
           return res.render("edit", { user, restaurant, _id, categories });
         });
     })
