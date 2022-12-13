@@ -8,7 +8,10 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 //- require flash for short message
 const flash = require("connect-flash");
+//- require passport
 const passport = require("passport");
+//- require method-override
+const methodOverride = require("method-override");
 //- require router
 const router = require("./routes/index");
 const app = express();
@@ -31,6 +34,8 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 //! body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
+//! method override
+app.use(methodOverride("_method"));
 
 //! session setting
 app.use(

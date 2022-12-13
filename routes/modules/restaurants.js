@@ -116,8 +116,8 @@ router.get("/:_id/edit", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-//- 接收修改請求
-router.post("/:_id/edit", (req, res) => {
+//- 接收修改請求(使用method-override 改為PUT)
+router.put("/:_id/", (req, res) => {
   const user = req.user;
   const { _id } = req.params;
   const restaurant = req.body;
@@ -143,8 +143,8 @@ router.post("/:_id/edit", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-//- 接收delete請求
-router.post("/:_id/delete", (req, res) => {
+//- 接收delete請求(使用method-override改為DELETE)
+router.delete("/:_id/", (req, res) => {
   const { _id } = req.params;
   return (
     Restaurant.findById(_id)

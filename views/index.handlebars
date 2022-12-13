@@ -116,7 +116,8 @@
             data-bs-dismiss="modal"
           >Close</button>
           <form
-            action="/restaurants/{{_id}}/delete"
+            {{!-- 使用method-override將POST改為DELTEE --}}
+            action="/restaurants/{{_id}}/?_method=DELETE"
             method="POST"
             class="my-0 d-flex align-items-center"
           >
