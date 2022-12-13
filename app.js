@@ -1,15 +1,9 @@
 //! require express
 const express = require("express");
-const app = express();
-const port = 3000;
 // - require express-handlebars
 const exphbs = require("express-handlebars");
-//! require mongoose
-const mongoose = require("mongoose");
-
 //- require bodyparser
 const bodyParser = require("body-parser");
-
 //- require session for flash and passport
 const session = require("express-session");
 //- require flash for short message
@@ -17,27 +11,17 @@ const flash = require("connect-flash");
 const passport = require("passport");
 //- require router
 const router = require("./routes/index");
+const app = express();
+const port = 3000;
 
 //! connect to db
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config(); //- 僅在非正式環境時使用dotenv
 }
-
+//- run mongoose setting
+require("./config/mongoose");
 //- run passport
 require("./config/passport");
-
-mongoose.connect(process.env.MONGOOSE_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const db = mongoose.connection;
-db.on("error", () => {
-  console.log("MongoDB connect error!!!");
-});
-db.once("open", () => {
-  console.log("MongoDB connected successfully!!!");
-});
 
 //! template engine setting
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));

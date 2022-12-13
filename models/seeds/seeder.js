@@ -1,5 +1,4 @@
-//- 建立mongoose 連線與引入Restaurant model
-const mongoose = require("mongoose");
+//- 引入Restaurant, User model
 const Restaurant = require("../restaurant");
 const User = require("../user");
 //- require ressttaurant json file
@@ -11,19 +10,10 @@ const bcrypt = require("bcrypt");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+//- 建立mongoose 連線
+const db = require("../../config/mongoose");
 
-//- 連線database
-mongoose.connect(process.env.MONGOOSE_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-const db = mongoose.connection;
-
-db.on("error", () => {
-  console.log("MongoDB connect error!!!");
-});
 db.once("open", () => {
-  console.log("MongoDB connected successfully!!!");
   //- 連線後加入種子資料
   // restaurantSeed.forEach((restaurant) => {
   //   Restaurant.create({
