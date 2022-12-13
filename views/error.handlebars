@@ -7,20 +7,36 @@
     <div class="search-bar-inner">
       <form action="/search">
         <h4 class="mb-2">尋找餐廳：</h4>
-        <div class="input-group">
-          <input
-            type="text"
-            name="keyword"
-            class="form-control"
-            placeholder="輸入餐廳、分類或評分"
-            aria-label="Restaurant Name..."
-            value="{{keyword}}"
-            aria-describedby="search-button"
-          />
-          <div class="input-group-append">
-            <button class="btn btn-major" type="submit" id="search-button"><i
-                class="fas fa-search"
-              ></i></button>
+        <div class="d-flex flex-column flex-sm-row align-items-center">
+          <div class="input-group mb-2 mb-sm-0">
+            <input
+              type="text"
+              name="keyword"
+              class="form-control"
+              placeholder="輸入餐廳、分類或評分"
+              aria-label="Restaurant Name..."
+              value="{{keyword}}"
+              aria-describedby="search-button"
+            />
+            <button class="btn btn-major" type="submit" id="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="input-group ms-sm-5">
+            <select class="form-select" id="sort" name="sort">
+              <option value="asc" {{isLastSelected lastSortMethod "desc"}}>A ->
+                Z</option>
+              <option value="desc" {{isLastSelected lastSortMethod "desc"}}>Z ->
+                A</option>
+              <option
+                value="category"
+                {{isLastSelected lastSortMethod "category"}}
+              >類別</option>
+              <option
+                value="location"
+                {{isLastSelected lastSortMethod "location"}}
+              >地區</option>
+            </select>
           </div>
         </div>
       </form>

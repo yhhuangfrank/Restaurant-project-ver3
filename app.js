@@ -26,8 +26,18 @@ require("./config/mongoose");
 //- run passport
 require("./config/passport");
 
+const hbs = exphbs.create({ 
+  defaultLayout: "main", 
+  //- create custom helper
+  helpers: {
+    isLastSelected: function(lastSortMethod, sortMethod) {
+      if (sortMethod === lastSortMethod) return 'selected';
+    }
+  }
+});
+
 //! template engine setting
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 //! load static files

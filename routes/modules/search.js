@@ -13,18 +13,30 @@ const authCheck = (req, res, next) => {
 //! search for certain restaurants
 router.get("/", authCheck, (req, res) => {
   const keyword = req.query.keyword.toLowerCase().trim();
+  let { sort } = req.query;
+  const lastSortMethod = sort;
   //- 尋找包含keyword的餐廳
   const user = req.user;
   const userID = req.user._id;
-  //- search by rating (若輸入數字)
+  if (sort === "asc" || sort === "desc") {
+    sort = { name_en: sort };
+  }
+  //- search by rating (若輸入數字or空字串)
   if (!isNaN(Number(keyword))) {
     return Restaurant.find({ rating: { $gte: Number(keyword) }, userID })
       .lean()
+      .collation({ locale: "en" })
+      .sort(sort)
       .then((restaurants) => {
         if (!restaurants.length) {
-          return res.render("error", { keyword, user });
+          return res.render("error", { keyword, user, lastSortMethod });
         }
-        return res.render("index", { restaurants, keyword, user });
+        return res.render("index", {
+          restaurants,
+          keyword,
+          user,
+          lastSortMethod,
+        });
       })
       .catch((err) => console.log(err));
   }
@@ -45,11 +57,18 @@ router.get("/", authCheck, (req, res) => {
     ],
   })
     .lean()
+    .collation({ locale: "en" })
+    .sort(sort)
     .then((restaurants) => {
       if (!restaurants.length) {
-        return res.render("error", { keyword, user });
+        return res.render("error", { keyword, user, lastSortMethod });
       }
-      return res.render("index", { restaurants, keyword, user });
+      return res.render("index", {
+        restaurants,
+        keyword,
+        user,
+        lastSortMethod,
+      });
     })
     .catch((err) => console.log(err));
 });
