@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const Restaurant = require("../models/restaurant");
-
+const Restaurant = require("../../models/restaurant");
 
 const authCheck = (req, res, next) => {
   if (req.isAuthenticated()) {

@@ -6,10 +6,7 @@ const port = 3000;
 const exphbs = require("express-handlebars");
 //! require mongoose
 const mongoose = require("mongoose");
-//- routers
-const authRoutes = require("./routes/auth");
-const restaurantRoutes = require("./routes/restaurants");
-const searchRoutes = require("./routes/search");
+
 //- require bodyparser
 const bodyParser = require("body-parser");
 
@@ -18,6 +15,8 @@ const session = require("express-session");
 //- require flash for short message
 const flash = require("connect-flash");
 const passport = require("passport");
+//- require router
+const router = require("./routes/index");
 
 //! connect to db
 if (process.env.NODE_ENV !== "production") {
@@ -73,22 +72,8 @@ app.use((req, res, next) => {
   next();
 });
 
-//! set server routes
-app.use("/auth", authRoutes);
-app.use("/restaurants", restaurantRoutes);
-app.use("/search", searchRoutes);
-
-app.get("/", (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.redirect("/restaurants");
-  }
-  return res.render("home");
-});
-
-//! route for not found (undefined route)
-app.get("*", (req, res) => {
-  res.render("error");
-});
+//- routes
+app.use(router);
 
 //! listen to server
 app.listen(port, () => {

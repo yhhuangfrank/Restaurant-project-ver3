@@ -1,8 +1,8 @@
 //! /restaurants的route設定
 const router = require("express").Router();
-const Restaurant = require("../models/restaurant");
+const Restaurant = require("../../models/restaurant");
 //- require checkFormInput
-const { checkFormInput } = require("../models/checkFormInput");
+const { checkFormInput } = require("../../models/checkFormInput");
 
 //- 驗證登入middleware
 const authCheck = (req, res, next) => {

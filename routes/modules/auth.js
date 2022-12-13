@@ -1,7 +1,7 @@
 //! auth相關route
 const router = require("express").Router();
 const passport = require("passport");
-const User = require("../models/user");
+const User = require("../../models/user");
 const bcrypt = require("bcrypt");
 
 //- 註冊本地會員
