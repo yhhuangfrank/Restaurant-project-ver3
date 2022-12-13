@@ -23,7 +23,7 @@
           </div>
           <div class="input-group ms-sm-5">
             <select class="form-select" id="sort" name="sort">
-              <option value="asc" {{isLastSelected lastSortMethod "desc"}}>A -> Z</option>
+              <option value="asc" {{isLastSelected lastSortMethod "asc"}}>A -> Z</option>
               <option value="desc" {{isLastSelected lastSortMethod "desc"}}>Z -> A</option>
               <option value="category" {{isLastSelected lastSortMethod "category"}}>類別</option>
               <option value="location" {{isLastSelected lastSortMethod "location"}}>地區</option>
@@ -41,7 +41,7 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
-      <div class="row row-cols-sm-3">
+      <div class="row row-cols-1 row-cols-sm-3 align-items-center">
         {{! show all restaurant by loop }}
         {{#each restaurants}}
           <div class="col">
