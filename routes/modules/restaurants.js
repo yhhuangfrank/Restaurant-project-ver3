@@ -26,7 +26,7 @@ router.get("/", authCheck, (req, res) => {
 });
 
 //- 導向新增餐廳頁面
-router.get("/new", authCheck, async (req, res) => {
+router.get("/new", authCheck, (req, res) => {
   const user = req.user;
   const userID = user._id;
   //- 取得目前收藏餐廳所有類別
@@ -117,7 +117,7 @@ router.get("/:_id/edit", (req, res) => {
     .catch((err) => console.log(err));
 });
 //- 接收修改請求(使用method-override 改為PUT)
-router.put("/:_id/", (req, res) => {
+router.put("/:_id", (req, res) => {
   const user = req.user;
   const { _id } = req.params;
   const restaurant = req.body;
@@ -144,7 +144,7 @@ router.put("/:_id/", (req, res) => {
 });
 
 //- 接收delete請求(使用method-override改為DELETE)
-router.delete("/:_id/", (req, res) => {
+router.delete("/:_id", (req, res) => {
   const { _id } = req.params;
   return (
     Restaurant.findById(_id)

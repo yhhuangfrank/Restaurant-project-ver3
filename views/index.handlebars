@@ -17,9 +17,6 @@
             value="{{keyword}}"
             aria-describedby="search-button"
             />
-            <button class="btn btn-major" type="submit" id="search-button">
-              <i class="fas fa-search"></i>
-            </button>
           </div>
           <div class="input-group ms-sm-5">
             <select class="form-select" id="sort" name="sort">
@@ -28,6 +25,9 @@
               <option value="category" {{isLastSelected lastSortMethod "category"}}>類別</option>
               <option value="location" {{isLastSelected lastSortMethod "location"}}>地區</option>
             </select>
+              <button class="btn btn-major" type="submit" id="search-button">
+              <i class="fas fa-search"></i>
+            </button>
           </div>
         </div>
       </form>
