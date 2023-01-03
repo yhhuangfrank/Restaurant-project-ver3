@@ -36,7 +36,7 @@
             />
             我的餐廳清單
           </a>
-          {{#if user}}
+          {{#if isAuthenticated}}
             <div class="d-flex align-items-center">
               <a href="/restaurants/new" class="btn btn-primary">新增餐廳</a>
               <form

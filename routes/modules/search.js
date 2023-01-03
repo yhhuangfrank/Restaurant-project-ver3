@@ -1,14 +1,12 @@
 const router = require("express").Router();
 const Restaurant = require("../../models/restaurant");
 
-
 //! search for certain restaurants
 router.get("/", (req, res) => {
   const keyword = req.query.keyword.toLowerCase().trim();
   let { sort } = req.query;
   const lastSortMethod = sort;
   //- 尋找包含keyword的餐廳
-  const user = req.user;
   const userID = req.user._id;
   if (sort === "asc" || sort === "desc") {
     sort = { name_en: sort };
@@ -21,12 +19,11 @@ router.get("/", (req, res) => {
       .sort(sort)
       .then((restaurants) => {
         if (!restaurants.length) {
-          return res.render("error", { keyword, user, lastSortMethod });
+          return res.render("error", { keyword, lastSortMethod });
         }
         return res.render("index", {
           restaurants,
           keyword,
-          user,
           lastSortMethod,
         });
       })
@@ -53,12 +50,11 @@ router.get("/", (req, res) => {
     .sort(sort)
     .then((restaurants) => {
       if (!restaurants.length) {
-        return res.render("error", { keyword, user, lastSortMethod });
+        return res.render("error", { keyword, lastSortMethod });
       }
       return res.render("index", {
         restaurants,
         keyword,
-        user,
         lastSortMethod,
       });
     })
