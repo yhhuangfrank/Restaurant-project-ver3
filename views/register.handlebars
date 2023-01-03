@@ -10,11 +10,7 @@
           class="needs-validation fw-bolder"
           novalidate
         >
-          {{#if fail_msg}}
-            <div class="alert alert-warning" role="alert">
-              <strong>{{fail_msg}}</strong>
-            </div>
-          {{/if}}
+          {{> message}}
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input
@@ -24,6 +20,7 @@
               name="name"
               minlength="3"
               maxlength="200"
+              value="{{name}}"
               required
             />
             <div class="valid-feedback">
@@ -41,6 +38,7 @@
               id="username"
               placeholder="name@example.com"
               name="username"
+              value="{{username}}"
               required
             />
             <div class="valid-feedback">
@@ -58,8 +56,9 @@
               class="form-control"
               aria-describedby="passwordHelpBlock"
               name="password"
-              {{! minlength="8" }}
+              {{!-- minlength="8" --}}
               maxlength="20"
+              value="{{password}}"
               required
             />
             <div class="valid-feedback">

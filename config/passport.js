@@ -33,7 +33,6 @@ module.exports = (app) => {
   //! local strategy setting
   passport.use(
     new LocalStrategy((username, password, done) => {
-      console.log("local login")
       return User.findOne({ email: username })
         .then((user) => {
           //- if cannot found user
@@ -45,7 +44,7 @@ module.exports = (app) => {
             return bcrypt.compare(password, user.password).then((isMatched) => {
               return isMatched
                 ? done(null, user)
-                : done(null, false, { message: "信箱或密碼錯誤" });
+                : done(null, false, { message: "密碼錯誤" });
             });
           }
         })

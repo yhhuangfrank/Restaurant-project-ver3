@@ -13,20 +13,18 @@ router.post("/register", async (req, res) => {
   const { name, username, password } = req.body;
   if (password.length < 8) {
     //* 更新flash 的error_msg
-    req.flash("fail_msg", "密碼長度過短，至少需要8位字元。");
-    return res.redirect("/auth/register");
+    req.flash("fail_msg", "密碼長度過短，至少需要8位字元");
+    console.log("提交表單");
+    return res.render("register", { name, username, password });
   }
-  //- 若輸入內容通過->檢查是否註冊過
   try {
+    //- 若輸入內容通過->檢查是否註冊過
     const foundUser = await User.findOne({ email: username });
     if (foundUser) {
-      req.flash(
-        "fail_msg",
-        "此信箱已被註冊過，請使用此信箱嘗試登入或是使用新信箱註冊。"
-      );
+      req.flash("fail_msg", "此信箱已被註冊過囉!");
       return res.redirect("/auth/register");
     }
-    //- 若為新用戶(進行密碼加密與存入資料庫)
+    //- 若為新用戶(進行密碼雜湊與存入資料庫)
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
@@ -34,7 +32,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    req.flash(req.flash("success_msg", "恭喜註冊成功，現在可以登入系統了!"));
+    req.flash(req.flash("success_msg", "註冊成功!現在可以登入系統了!"));
     return res.redirect("/home");
   } catch (err) {
     console.log(err);
@@ -46,7 +44,7 @@ router.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "/home",
-    failureFlash: "登入失敗! 帳號或密碼不正確!",
+    failureFlash: true,
   }),
   (req, res) => {
     console.log("本地會員登入成功!");

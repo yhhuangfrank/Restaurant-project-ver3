@@ -1,0 +1,49 @@
+{{!  for flash and  customized message}}
+
+{{#if success_msg}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{success_msg}}!</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+{{/if}}
+
+{{#if error}}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{error}}</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+{{/if}}
+
+{{#if fail_msg}}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{fail_msg}}</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+{{/if}}
+
+{{#if warning_msg}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{warning_msg}}</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+{{/if}}
