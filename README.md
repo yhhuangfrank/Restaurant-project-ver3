@@ -2,8 +2,8 @@
 
 A web application for collecting your favorite restaurants
 
-![Previrew](https://github.com/yhhuangfrank/Restaurant-project-ver3/blob/main/public/image/website%20preview%20image1.png)
-![Previrew](https://github.com/yhhuangfrank/Restaurant-project-ver3/blob/main/public/image/website%20preview%20image2.png)
+![Previrew](https://github.com/yhhuangfrank/Restaurant-project-ver3/blob/main/public/image/preview%20image1.png)
+![Previrew](https://github.com/yhhuangfrank/Restaurant-project-ver3/blob/main/public/image/preview%20image2.png)
 
 ## Features
 
