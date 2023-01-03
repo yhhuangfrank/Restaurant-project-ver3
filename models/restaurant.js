@@ -45,6 +45,8 @@ const RestaurantSchema = new Schema({
   userID: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    index: true,
+    required: true,
   },
 });
 
