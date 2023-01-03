@@ -4,13 +4,12 @@ const passport = require("passport");
 //! load passport strategy
 const LocalStrategy = require("passport-local");
 //! require bcrypt
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 //! require User schema
 const User = require("../models/user");
 
-
-//- exports passport function for app 
+//- exports passport function for app
 module.exports = (app) => {
   //! passport initialize and passport session middlware
   app.use(passport.initialize());
@@ -34,26 +33,23 @@ module.exports = (app) => {
   //! local strategy setting
   passport.use(
     new LocalStrategy((username, password, done) => {
-      User.findOne({ email: username })
+      console.log("local login")
+      return User.findOne({ email: username })
         .then((user) => {
-          //- if found user
-          if (user) {
-            bcrypt.compare(password, user.password, (err, isMatched) => {
-              if (err) throw err;
+          //- if cannot found user
+          if (!user) {
+            console.log("connot find")
+            return done(null, false, { message: "此用戶尚未註冊過!" });
+          } else {
+            //- compare password
+            return bcrypt.compare(password, user.password).then((isMatched) => {
               return isMatched
                 ? done(null, user)
-                : done(null, false, { message: "Incorrect email or password" });
-            });
-          } else {
-            return done(null, false, {
-              message: "Incorrect email or password",
+                : done(null, false, { message: "信箱或密碼錯誤" });
             });
           }
         })
         .catch((err) => console.log(err));
     })
   );
-}
-
-
-
+};
