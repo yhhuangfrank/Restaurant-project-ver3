@@ -4,17 +4,8 @@ const Restaurant = require("../../models/restaurant");
 //- require checkFormInput
 const { checkFormInput } = require("../../models/checkFormInput");
 
-//- 驗證登入middleware
-const authCheck = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    console.log("authChecking");
-    return next();
-  } else {
-    return res.redirect("/");
-  }
-};
 
-router.get("/", authCheck, (req, res) => {
+router.get("/", (req, res) => {
   console.log("get user's restaurants ....");
   //- 取出對應user的餐廳資料
   const user = req.user;
@@ -26,7 +17,7 @@ router.get("/", authCheck, (req, res) => {
 });
 
 //- 導向新增餐廳頁面
-router.get("/new", authCheck, (req, res) => {
+router.get("/new", (req, res) => {
   const user = req.user;
   const userID = user._id;
   //- 取得目前收藏餐廳所有類別
@@ -83,7 +74,7 @@ router.post("/", (req, res) => {
 });
 
 //- 顯示詳細資訊
-router.get("/:_id", authCheck, (req, res) => {
+router.get("/:_id", (req, res) => {
   const user = req.user;
   const { _id } = req.params;
   //- 透過id查詢導向對應餐廳資料，將查詢結果傳回給show頁面

@@ -35,7 +35,7 @@ router.post("/register", async (req, res) => {
   try {
     await newUser.save();
     req.flash(req.flash("success_msg", "恭喜註冊成功，現在可以登入系統了!"));
-    return res.redirect("/");
+    return res.redirect("/home");
   } catch (err) {
     console.log(err);
   }

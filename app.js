@@ -6,10 +6,10 @@ const exphbs = require("express-handlebars");
 const bodyParser = require("body-parser");
 //- require session for flash and passport
 const session = require("express-session");
+//- require usePassport
+const usePassport = require("./config/passport")
 //- require flash for short message
 const flash = require("connect-flash");
-//- require passport
-const passport = require("passport");
 //- require method-override
 const methodOverride = require("method-override");
 //- require router
@@ -23,8 +23,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 //- run mongoose setting
 require("./config/mongoose");
-//- run passport
-require("./config/passport");
+
 
 const hbs = exphbs.create({ 
   defaultLayout: "main", 
@@ -56,10 +55,9 @@ app.use(
     cookie: { secure: false },
   })
 );
+//- run passport
+usePassport(app);
 
-//! passport initialize and passport session middlware
-app.use(passport.initialize());
-app.use(passport.session());
 
 //! flash middlware
 app.use(flash());

@@ -1,17 +1,9 @@
 const router = require("express").Router();
 const Restaurant = require("../../models/restaurant");
 
-const authCheck = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    console.log("authChecking");
-    return next();
-  } else {
-    return res.redirect("/");
-  }
-};
 
 //! search for certain restaurants
-router.get("/", authCheck, (req, res) => {
+router.get("/", (req, res) => {
   const keyword = req.query.keyword.toLowerCase().trim();
   let { sort } = req.query;
   const lastSortMethod = sort;
