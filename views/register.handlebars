@@ -1,79 +1,103 @@
 <div class="row mt-2">
-  <div class="col col-8 mx-auto">
-    <div class="row justify-content-center">
-      <div class="col col-6">
-        <h1 class="mb-3">註冊會員</h1>
-        <form
-          action="/auth/register"
-          method="POST"
-          id="login-form"
-          class="needs-validation fw-bolder"
-          novalidate
-        >
-          {{> message}}
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="name"
-              name="name"
-              minlength="3"
-              maxlength="200"
-              value="{{name}}"
-              required
-            />
-            <div class="valid-feedback">
-            </div>
-            <div class="invalid-feedback">
-              This field is invalid !
-            </div>
+  <div class="col col-md-6 mx-auto">
+    <div class="card card-body">
+      <h1 class="mb-2 text-center">註冊會員</h1>
+      <form
+        action="/auth/register"
+        method="POST"
+        id="login-form"
+        class="needs-validation fw-bolder"
+        novalidate
+      >
+        {{> message }}
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            minlength="3"
+            maxlength="200"
+            value="{{name}}"
+            placeholder="Enter your name..."
+            required
+          />
+          <div class="valid-feedback">
           </div>
+          <div class="invalid-feedback">
+            This field is invalid !
+          </div>
+        </div>
 
-          <div class="mb-3">
-            <label for="username" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="username"
-              placeholder="name@example.com"
-              name="username"
-              value="{{username}}"
-              required
-            />
-            <div class="valid-feedback">
-            </div>
-            <div class="invalid-feedback">
-              This field is invalid !
-            </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="username"
+            placeholder="name@example.com"
+            name="username"
+            value="{{username}}"
+            required
+          />
+          <div class="valid-feedback">
           </div>
+          <div class="invalid-feedback">
+            This field is invalid !
+          </div>
+        </div>
 
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              id="password"
-              class="form-control"
-              aria-describedby="passwordHelpBlock"
-              name="password"
-              {{!-- minlength="8" --}}
-              maxlength="20"
-              value="{{password}}"
-              required
-            />
-            <div class="valid-feedback">
-            </div>
-            <div class="invalid-feedback">
-              This field is invalid !
-            </div>
-            <small id="passwordHelpBlock" class="form-text">
-              Your password must be 8-20 characters long
-            </small>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            aria-describedby="passwordHelpBlock"
+            name="password"
+            maxlength="20"
+            value="{{password}}"
+            placeholder="Enter your password..."
+            required
+          />
+          <div class="valid-feedback">
           </div>
+          <div class="invalid-feedback">
+            This field is invalid !
+          </div>
+          <small id="passwordHelpBlock" class="form-text">
+            Your password must be 8-20 characters long
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            class="form-control"
+            aria-describedby="passwordHelpBlock"
+            name="confirmPassword"
+            maxlength="20"
+            value="{{confirmPassword}}"
+            placeholder="Confirm password"
+            required
+          />
+          <div class="valid-feedback">
+          </div>
+          <div class="invalid-feedback">
+            This field is invalid !
+          </div>
+        </div>
+        <div class="d-grid col-11 mx-auto">
           <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-
-      </div>
+        </div>
+        <p class="mb-0 mt-3">
+          已經註冊過了?
+          <a href="/home">點我登入</a>
+        </p>
+      </form>
     </div>
   </div>
 </div>
