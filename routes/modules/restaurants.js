@@ -4,7 +4,6 @@ const Restaurant = require("../../models/restaurant");
 //- require checkFormInput
 const { checkFormInput } = require("../../models/checkFormInput");
 
-
 router.get("/", (req, res) => {
   console.log("get user's restaurants ....");
   //- 取出對應user的餐廳資料
@@ -12,6 +11,7 @@ router.get("/", (req, res) => {
   const userID = req.user._id;
   return Restaurant.find({ userID })
     .lean()
+    .sort({ _id: "asc" })
     .then((restaurants) => res.render("index", { restaurants, user }))
     .catch((err) => console.log(err));
 });
@@ -75,12 +75,12 @@ router.post("/", (req, res) => {
 
 //- 顯示詳細資訊
 router.get("/:_id", (req, res) => {
-  const user = req.user;
+  const userID = req.user._id;
   const { _id } = req.params;
   //- 透過id查詢導向對應餐廳資料，將查詢結果傳回給show頁面
-  return Restaurant.findById(_id)
+  return Restaurant.findOne({ _id, userID })
     .lean()
-    .then((restaurant) => res.render("show", { restaurant, user }))
+    .then((restaurant) => res.render("show", { restaurant }))
     .catch((err) => console.log(err));
 });
 
@@ -110,6 +110,7 @@ router.get("/:_id/edit", (req, res) => {
 //- 接收修改請求(使用method-override 改為PUT)
 router.put("/:_id", (req, res) => {
   const user = req.user;
+  const userID = req.user._id;
   const { _id } = req.params;
   const restaurant = req.body;
   //- check form input
@@ -122,12 +123,10 @@ router.put("/:_id", (req, res) => {
       user,
     });
   }
-  return Restaurant.findById(_id)
+  return Restaurant.findOne({ _id, userID })
     .then((restaurant) => {
       //- 取得資料後修改並儲存
-      for (const prop in req.body) {
-        restaurant[prop] = req.body[prop];
-      }
+      restaurant = Object.assign(restaurant, req.body);
       return restaurant.save();
     })
     .then(() => res.redirect(`/restaurants/${_id}`))
@@ -136,12 +135,12 @@ router.put("/:_id", (req, res) => {
 
 //- 接收delete請求(使用method-override改為DELETE)
 router.delete("/:_id", (req, res) => {
+  const userID = req.user._id;
   const { _id } = req.params;
   return (
-    Restaurant.findById(_id)
-      //- 找到對應資料並刪除，重新導向
-      .then((restaurant) => restaurant.remove())
-      .then(() => res.redirect("/"))
+    //- 找到對應資料並刪除，重新導向
+    Restaurant.findOneAndDelete({ _id, userID })
+      .then(() => res.redirect("/home"))
       .catch((err) => console.log(err))
   );
 });
