@@ -69,10 +69,24 @@ router.post(
 router.post("/logout", (req, res) => {
   req.logout((err) => {
     if (err) return next(err);
-    req.flash("success_msg", "已成功登出!")
+    req.flash("success_msg", "已成功登出!");
     res.redirect("/");
   });
 });
+
+//- facebook登入
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email", "public_profile"] }) //- 向facebook索取資訊
+); 
+
+router.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/restaurants",
+    failureRedirect: "/",
+  })
+);
 
 //- exports router
 module.exports = router;

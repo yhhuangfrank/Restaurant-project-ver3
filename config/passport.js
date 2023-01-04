@@ -3,6 +3,7 @@ const passport = require("passport");
 
 //! load passport strategy
 const LocalStrategy = require("passport-local");
+const FacebookStrategy = require("passport-facebook");
 //! require bcrypt
 const bcrypt = require("bcryptjs");
 
@@ -37,7 +38,7 @@ module.exports = (app) => {
         .then((user) => {
           //- if cannot found user
           if (!user) {
-            console.log("connot find")
+            console.log("connot find");
             return done(null, false, { message: "此用戶尚未註冊過!" });
           } else {
             //- compare password
@@ -50,5 +51,38 @@ module.exports = (app) => {
         })
         .catch((err) => console.log(err));
     })
+  );
+
+  //! FacebookStrategy
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_ID,
+        clientSecret: process.env.FACEBOOK_SECRET,
+        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        profileFields: ["email", "displayName"],
+      },
+      (accessToken, refreshToken, profile, done) => {
+        const { name, email } = profile._json;
+        //- check user if already register
+        return User.findOne({ email })
+          .then((user) => {
+            if (user) return done(null, user);
+            //- new user
+            const randomPassword = Math.random().toString(36).slice(-8);
+            return bcrypt
+              .hash(randomPassword, 10)
+              .then((hashedPassword) =>
+                User.create({
+                  name,
+                  email,
+                  password: hashedPassword,
+                })
+              )
+              .then((user) => done(null, user));
+          })
+          .catch((err) => done(err, false));
+      }
+    )
   );
 };
