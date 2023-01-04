@@ -14,7 +14,7 @@ const homeRoute = require("./modules/home");
 router.use("/auth", authRoutes);
 router.use("/restaurants", authCheck, restaurantRoutes);
 router.use("/search", authCheck, searchRoutes);
-router.use("/home", homeRoute);
+router.use("/", homeRoute);
 
 //! route for not found (undefined route)
 router.get("*", (req, res) => {

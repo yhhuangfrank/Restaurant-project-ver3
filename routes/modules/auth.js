@@ -46,7 +46,7 @@ router.post("/register", (req, res) => {
         )
         .then(() => {
           req.flash(req.flash("success_msg", "註冊成功!現在可以登入系統了!"));
-          return res.redirect("/home");
+          return res.redirect("/");
         });
     })
     .catch((err) => console.log(err));
@@ -56,7 +56,7 @@ router.post("/register", (req, res) => {
 router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/home",
+    failureRedirect: "/",
     failureFlash: true,
   }),
   (req, res) => {
@@ -70,7 +70,7 @@ router.post("/logout", (req, res) => {
   req.logout((err) => {
     if (err) return next(err);
     req.flash("success_msg", "已成功登出!")
-    res.redirect("/home");
+    res.redirect("/");
   });
 });
 
