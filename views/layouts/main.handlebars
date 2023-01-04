@@ -34,7 +34,11 @@
               class="d-inline-block align-top"
               alt="我的餐廳清單"
             />
-            我的餐廳清單
+            {{#if user}}
+              {{user.name}}的餐廳清單
+            {{else}}
+              我的餐廳清單
+            {{/if}}
           </a>
           {{#if isAuthenticated}}
             <div class="d-flex align-items-center">

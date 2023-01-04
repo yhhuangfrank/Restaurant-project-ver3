@@ -59,10 +59,7 @@ router.post(
     failureRedirect: "/",
     failureFlash: true,
   }),
-  (req, res) => {
-    console.log("本地會員登入成功!");
-    return res.redirect("/restaurants");
-  }
+  (req, res) => res.redirect("/restaurants")
 );
 
 //- 會員登出
