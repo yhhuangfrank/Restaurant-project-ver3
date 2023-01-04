@@ -4,6 +4,7 @@ const passport = require("passport");
 //! load passport strategy
 const LocalStrategy = require("passport-local");
 const FacebookStrategy = require("passport-facebook");
+const GoogleStrategy = require("passport-google-oauth20");
 //! require bcrypt
 const bcrypt = require("bcryptjs");
 
@@ -18,15 +19,11 @@ module.exports = (app) => {
 
   //! serialize user
   passport.serializeUser((user, done) => {
-    console.log("Serialization 開始。。。");
-    console.log("執行done將user._id存入session");
     return done(null, user._id);
   });
 
   //! deserialize user
   passport.deserializeUser(async (_id, done) => {
-    console.log("Desrialization 開始。。。");
-    console.log("使用_id在資料庫找尋資料");
     const foundUser = await User.findById({ _id });
     return done(null, foundUser);
   });
@@ -38,7 +35,6 @@ module.exports = (app) => {
         .then((user) => {
           //- if cannot found user
           if (!user) {
-            console.log("connot find");
             return done(null, false, { message: "此用戶尚未註冊過!" });
           } else {
             //- compare password
@@ -75,6 +71,38 @@ module.exports = (app) => {
               .then((hashedPassword) =>
                 User.create({
                   name,
+                  email,
+                  password: hashedPassword,
+                })
+              )
+              .then((user) => done(null, user));
+          })
+          .catch((err) => done(err, false));
+      }
+    )
+  );
+
+  //! GoogleStrategy
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_ID,
+        clientSecret: process.env.GOOGLE_SECRET,
+        callbackURL: "http://localhost:3000/auth/google/callback",
+      },
+      (accessToken, refreshToken, profile, done) => {
+        const { given_name, email } = profile._json;
+        //- check if already register
+        return User.findOne({ email })
+          .then((user) => {
+            if (user) return done(null, user);
+            //- new user
+            const randomPassword = Math.random().toString(36).slice(-8);
+            return bcrypt
+              .hash(randomPassword, 10)
+              .then((hashedPassword) =>
+                User.create({
+                  name: given_name,
                   email,
                   password: hashedPassword,
                 })

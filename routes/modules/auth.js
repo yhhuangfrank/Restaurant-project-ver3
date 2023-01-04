@@ -78,11 +78,27 @@ router.post("/logout", (req, res) => {
 router.get(
   "/facebook",
   passport.authenticate("facebook", { scope: ["email", "public_profile"] }) //- 向facebook索取資訊
-); 
+);
 
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
+    successRedirect: "/restaurants",
+    failureRedirect: "/",
+  })
+);
+
+//- google 登入
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
     successRedirect: "/restaurants",
     failureRedirect: "/",
   })
