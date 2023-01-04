@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGOOSE_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 const db = mongoose.connection;
@@ -16,4 +17,4 @@ db.once("open", () => {
 });
 
 //- export db
-module.exports = db
+module.exports = db;

@@ -4,7 +4,7 @@ const User = require("../user");
 //- require ressttaurant json file
 const restaurantSeeds = require("../../restaurant.json").results;
 const userSeeds = require("../../user.json").userList;
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 //! 僅在非正式環境取用dotenv
 if (process.env.NODE_ENV !== "production") {
@@ -14,55 +14,45 @@ if (process.env.NODE_ENV !== "production") {
 const db = require("../../config/mongoose");
 
 db.once("open", () => {
-  //- 連線後加入種子資料
-  // restaurantSeed.forEach((restaurant) => {
-  //   Restaurant.create({
-  //     name: restaurant.name,
-  //     name_en: restaurant.name_en,
-  //     category: restaurant.category,
-  //     image: restaurant.image,
-  //     location: restaurant.location,
-  //     phone: restaurant.phone,
-  //     google_map: restaurant.google_map,
-  //     rating: restaurant.rating,
-  //     description: restaurant.description,
-  //   });
-  // });
-  // //- 方法二，種子資料結果屬於array使用insertMany一並加入
-  // Restaurant.insertMany(restaurantSeed);
-
   //! 每筆餐廳資料有對應使用者
   //- 將種子使用者密碼加密存入db -> 前4筆餐廳為user1，後4筆餐廳為user2
   userSeeds.forEach((userSeed, index) => {
-    bcrypt.hash(userSeed.password, 12, (err, hash) => {
+    bcrypt.hash(userSeed.password, 10, (err, hash) => {
       if (err) throw err;
-      User.create({
+      return User.create({
         name: userSeed.name,
         email: userSeed.username,
         password: hash,
-      }).then((user) => {
-        //- index:0 -> user1, 前4筆餐廳
-        //- index:1 -> user2, 後4筆餐廳
-        const restaurants = index
-          ? restaurantSeeds.slice(4)
-          : restaurantSeeds.slice(0, 4);
-        //- 建立餐廳種子資料
-        restaurants.forEach((restaurant) => {
-          Restaurant.create({
-            name: restaurant.name,
-            name_en: restaurant.name_en,
-            category: restaurant.category,
-            image: restaurant.image,
-            location: restaurant.location,
-            phone: restaurant.phone,
-            google_map: restaurant.google_map,
-            rating: restaurant.rating,
-            description: restaurant.description,
-            userID: user._id,
-          });
-        });
-      });
+      })
+        .then((user) => {
+          const userID = user._id;
+          //- index:0 -> user1, 前4筆餐廳
+          //- index:1 -> user2, 後4筆餐廳
+          const restaurants = index
+            ? restaurantSeeds.slice(4)
+            : restaurantSeeds.slice(0, 4);
+          //- 建立餐廳種子資料
+          const promiseArr = Array.from({ length: 4 }, (value, i) =>
+            Restaurant.create({
+              name: restaurants[i].name,
+              name_en: restaurants[i].name_en,
+              category: restaurants[i].category,
+              image: restaurants[i].image,
+              location: restaurants[i].location,
+              phone: restaurants[i].phone,
+              google_map: restaurants[i].google_map,
+              rating: restaurants[i].rating,
+              description: restaurants[i].description,
+              userID,
+            })
+          );
+          return Promise.all(promiseArr);
+        })
+        .then(() => {
+          console.log("Seed data added successfully!!");
+          process.exit(); //- end seeder program
+        })
+        .catch((err) => console.log(err));
     });
   });
-  console.log("Seed data added successfully!!");
 });
