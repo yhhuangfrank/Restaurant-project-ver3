@@ -24,7 +24,7 @@ db.once("open", () => {
         email: userSeed.username,
         password: hash,
       })
-        .then((user) => {
+        .then(async (user) => {
           const userID = user._id;
           //- index:0 -> user1, 前4筆餐廳
           //- index:1 -> user2, 後4筆餐廳
@@ -46,7 +46,7 @@ db.once("open", () => {
               userID,
             })
           );
-          return Promise.all(promiseArr);
+          return await Promise.all(promiseArr);
         })
         .then(() => {
           console.log("Seed data added successfully!!");
