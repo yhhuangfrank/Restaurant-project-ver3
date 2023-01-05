@@ -26,7 +26,7 @@ git clone https://github.com/yhhuangfrank/Restaurant-project-ver3.git
 2. 初始化
 
 ```
-cd Restaurant-project // 進入專案資料夾
+cd Restaurant-project-ver3 // 進入專案資料夾
 npm install // 將所需的npm module安裝
 ```
 
@@ -38,7 +38,7 @@ npm install // 將所需的npm module安裝
 Server is listening to http://localhost:3000
 ```
 
-4. 網址列輸入 http://localhost:3000/home 開始使用
+4. 網址列輸入 http://localhost:3000/ 開始使用
 
 ### Built with
 
