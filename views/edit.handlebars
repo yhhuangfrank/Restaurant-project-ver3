@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-10 col-sm-6 mx-auto">
     <form
-    {{!-- 使用method-override將POST改為PUT --}}
+      {{! 使用method-override將POST改為PUT }}
       action="/restaurants/{{_id}}/?_method=PUT"
       id="new-form"
       class="needs-validation fw-bolder"
@@ -179,7 +179,7 @@
       </div>
       {{! error message alert -start }}
       {{#if errMessage}}
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-light" role="alert">
           {{{errMessage}}}
         </div>
       {{/if}}
@@ -195,7 +195,9 @@
         data-bs-toggle="modal"
         data-bs-target="#deleteModal"
       >Delete</button>
-      <a href="/restaurants" class="btn btn-success ms-2"><i class="fa-solid fa-reply"></i>
+      <a href="/restaurants" class="btn btn-success ms-2"><i
+          class="fa-solid fa-reply"
+        ></i>
         Home</a>
     </form>
   </div>
@@ -230,7 +232,7 @@
           data-bs-dismiss="modal"
         >Close</button>
         <form
-        {{!-- 使用method-override將POST改為DELTEE --}}
+          {{! 使用method-override將POST改為DELTEE }}
           action="/restaurants/{{_id}}/?_method=DELETE"
           method="POST"
           class="my-0 d-flex align-items-center"
