@@ -27,7 +27,10 @@ router.get("/", (req, res) => {
           lastSortMethod,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        return res.render("error", { error: err.message });
+      });
   }
 
   //- 如果輸入文字(使用regular expression, options: i 表示不分大小寫(insensitive match))
@@ -58,7 +61,10 @@ router.get("/", (req, res) => {
         lastSortMethod,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 module.exports = router;

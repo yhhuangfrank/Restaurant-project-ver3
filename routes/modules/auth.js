@@ -49,7 +49,10 @@ router.post("/register", (req, res) => {
           return res.redirect("/");
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 //- 驗證本地會員登入(使用passport提供middleware)

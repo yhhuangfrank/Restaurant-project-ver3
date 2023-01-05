@@ -10,8 +10,11 @@ router.get("/", (req, res) => {
   return Restaurant.find({ userID })
     .lean()
     .sort({ _id: "asc" })
-    .then((restaurants) => res.render("index", { restaurants}))
-    .catch((err) => console.log(err));
+    .then((restaurants) => res.render("index", { restaurants }))
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 //- 導向新增餐廳頁面
@@ -28,7 +31,10 @@ router.get("/new", (req, res) => {
         );
       return res.render("new", { categories });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 //- 接收新增餐廳請求
 router.post("/", (req, res) => {
@@ -67,7 +73,10 @@ router.post("/", (req, res) => {
     userID,
   })
     .then(() => res.redirect("/restaurants"))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 //- 顯示詳細資訊
@@ -78,7 +87,10 @@ router.get("/:_id", (req, res) => {
   return Restaurant.findOne({ _id, userID })
     .lean()
     .then((restaurant) => res.render("show", { restaurant }))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 //- 導向修改頁面
@@ -101,7 +113,10 @@ router.get("/:_id/edit", (req, res) => {
           return res.render("edit", { restaurant, _id, categories });
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 //- 接收修改請求(使用method-override 改為PUT)
 router.put("/:_id", (req, res) => {
@@ -125,7 +140,10 @@ router.put("/:_id", (req, res) => {
       return restaurant.save();
     })
     .then(() => res.redirect(`/restaurants/${_id}`))
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return res.render("error", { error: err.message });
+    });
 });
 
 //- 接收delete請求(使用method-override改為DELETE)
@@ -136,7 +154,10 @@ router.delete("/:_id", (req, res) => {
     //- 找到對應資料並刪除，重新導向
     Restaurant.findOneAndDelete({ _id, userID })
       .then(() => res.redirect("/restaurants"))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err);
+        return res.render("error", { error: err.message });
+      })
   );
 });
 

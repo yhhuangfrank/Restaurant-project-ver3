@@ -82,6 +82,19 @@ code {
   display: block;
 }
 
+div.errContainer {
+  background-color: #ffdbac;
+  border-radius: 30px;
+}
+
+div.errContainer h2 {
+  color: black;
+}
+
+code.errMessage {
+  font-size: 1.2rem;
+}
+
 @media screen and (max-width: 992px) {
   .card img {
     height: 115px;

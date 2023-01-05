@@ -2,44 +2,56 @@
 {{! when 404 & no search result }}
 <h1 class="mb-1 restaurant-show-title">Oops! No results :(</h1>
 <!-- search bar -->
-<div class="container search-bar">
-  <div class="search-bar-outer">
-    <div class="search-bar-inner">
-      <form action="/search">
-        <h4 class="mb-2">尋找餐廳：</h4>
-        <div class="d-flex flex-column flex-sm-row align-items-center">
-          <div class="input-group mb-2 mb-sm-0">
-            <input
-              type="text"
-              name="keyword"
-              class="form-control"
-              placeholder="輸入餐廳、分類或評分"
-              aria-label="Restaurant Name..."
-              value="{{keyword}}"
-              aria-describedby="search-button"
-            />
+{{#if isAuthenticated}}
+  <div class="container search-bar">
+    <div class="search-bar-outer">
+      <div class="search-bar-inner">
+        <form action="/search">
+          <h4 class="mb-2">尋找餐廳：</h4>
+          <div class="d-flex flex-column flex-sm-row align-items-center">
+            <div class="input-group mb-2 mb-sm-0">
+              <input
+                type="text"
+                name="keyword"
+                class="form-control"
+                placeholder="輸入餐廳、分類或評分"
+                aria-label="Restaurant Name..."
+                value="{{keyword}}"
+                aria-describedby="search-button"
+              />
+            </div>
+            <div class="input-group ms-sm-5">
+              <select class="form-select" id="sort" name="sort">
+                <option value="asc" {{isLastSelected lastSortMethod "desc"}}>A
+                  -> Z</option>
+                <option value="desc" {{isLastSelected lastSortMethod "desc"}}>Z
+                  -> A</option>
+                <option
+                  value="category"
+                  {{isLastSelected lastSortMethod "category"}}
+                >類別</option>
+                <option
+                  value="location"
+                  {{isLastSelected lastSortMethod "location"}}
+                >地區</option>
+              </select>
+              <button class="btn btn-major" type="submit" id="search-button">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
           </div>
-          <div class="input-group ms-sm-5">
-            <select class="form-select" id="sort" name="sort">
-              <option value="asc" {{isLastSelected lastSortMethod "desc"}}>A ->
-                Z</option>
-              <option value="desc" {{isLastSelected lastSortMethod "desc"}}>Z ->
-                A</option>
-              <option
-                value="category"
-                {{isLastSelected lastSortMethod "category"}}
-              >類別</option>
-              <option
-                value="location"
-                {{isLastSelected lastSortMethod "location"}}
-              >地區</option>
-            </select>
-            <button class="btn btn-major" type="submit" id="search-button">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+{{/if}}
+{{#if error}}
+  <div class="row mt-3">
+    <div class="col-10 col-md-8 mx-auto">
+      <div class="alert alert-warning errContainer" role="alert">
+        <h2 class="text-center">Errors from app :(</h2>
+        <code class="text-center errMessage">{{error}}</code>
+      </div>
+    </div>
+  </div>
+{{/if}}
