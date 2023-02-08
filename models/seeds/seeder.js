@@ -13,27 +13,29 @@ if (process.env.NODE_ENV !== "production") {
 //- 建立mongoose 連線
 const db = require("../../config/mongoose");
 
-db.once("open", () => {
+db.once("open", async () => {
   //! 每筆餐廳資料有對應使用者
   //- 將種子使用者密碼加密存入db -> 前4筆餐廳為user1，後4筆餐廳為user2
-  userSeeds.forEach((userSeed, index) => {
-    bcrypt.hash(userSeed.password, 10, (err, hash) => {
-      if (err) throw err;
-      return User.create({
-        name: userSeed.name,
-        email: userSeed.username,
-        password: hash,
-      })
-        .then(async (user) => {
-          const userID = user._id;
-          //- index:0 -> user1, 前4筆餐廳
-          //- index:1 -> user2, 後4筆餐廳
-          const restaurants = index
-            ? restaurantSeeds.slice(4)
-            : restaurantSeeds.slice(0, 4);
-          //- 建立餐廳種子資料
-          const promiseArr = Array.from({ length: 4 }, (value, i) =>
-            Restaurant.create({
+  try {
+    await Promise.all(
+      userSeeds.map(async (userSeed, index) => {
+        const hash = bcrypt.hashSync(userSeed.password, 10);
+        const createdUser = await User.create({
+          name: userSeed.name,
+          email: userSeed.username,
+          password: hash,
+        });
+        const userID = createdUser._id;
+        //- index:0 -> user1, 前4筆餐廳
+        //- index:1 -> user2, 後4筆餐廳
+        const restaurants = index
+          ? restaurantSeeds.slice(4)
+          : restaurantSeeds.slice(0, 4);
+        //- 建立餐廳種子資料
+        const promiseArr = Array.from(
+          { length: 4 },
+          async (_value, i) =>
+            await Restaurant.create({
               name: restaurants[i].name,
               name_en: restaurants[i].name_en,
               category: restaurants[i].category,
@@ -45,14 +47,13 @@ db.once("open", () => {
               description: restaurants[i].description,
               userID,
             })
-          );
-          return await Promise.all(promiseArr);
-        })
-        .then(() => {
-          console.log("Seed data added successfully!!");
-          process.exit(); //- end seeder program
-        })
-        .catch((err) => console.log(err));
-    });
-  });
+        );
+        await Promise.all(promiseArr);
+      })
+    );
+    console.log("Seed data added successfully!!");
+    process.exit(); //- end seeder program
+  } catch (error) {
+    console.log(error);
+  }
 });
