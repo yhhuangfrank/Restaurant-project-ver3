@@ -55,7 +55,7 @@ module.exports = (app) => {
       {
         clientID: process.env.FACEBOOK_ID,
         clientSecret: process.env.FACEBOOK_SECRET,
-        callbackURL: "http://localhost:3000/auth/facebook/callback",
+        callbackURL: process.env.FACEBOOK_CALLBACK,
         profileFields: ["email", "displayName"],
       },
       (accessToken, refreshToken, profile, done) => {
@@ -88,7 +88,7 @@ module.exports = (app) => {
       {
         clientID: process.env.GOOGLE_ID,
         clientSecret: process.env.GOOGLE_SECRET,
-        callbackURL: "http://localhost:3000/auth/google/callback",
+        callbackURL: process.env.GOOGLE_CALLBACK,
       },
       (accessToken, refreshToken, profile, done) => {
         const { given_name, email } = profile._json;
